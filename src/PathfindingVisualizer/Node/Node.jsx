@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import './Node.css';
 
-const Node = ({
+const Node = forwardRef(({
   col,
   isFinish,
   isStart,
@@ -11,14 +11,15 @@ const Node = ({
   onMouseEnter,
   onMouseUp,
   row,
-}) => {
+  distance
+},ref) => {
   const extraClassName = isFinish
     ? 'node-finish'
     : isStart
-    ? 'node-start'
-    : isWall
-    ? 'node-wall'
-    : '';
+      ? 'node-start'
+      : isWall
+        ? 'node-wall'
+        : '';
 
   return (
     <div
@@ -27,10 +28,10 @@ const Node = ({
       onMouseDown={() => onMouseDown(row, col)}
       onMouseEnter={() => onMouseEnter(row, col)}
       onMouseUp={() => onMouseUp()}
-    >
-
-    </div>
+      ref={ref}
+      distance={distance}
+    ></div>
   );
-};
+});
 
 export default Node;
