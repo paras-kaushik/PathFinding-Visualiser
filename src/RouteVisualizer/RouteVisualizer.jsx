@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Node from './Node/Node';
 import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstra';
 
-import './PathfindingVisualizer.css';
+import './RouteVisualizer.css';
 import { FINISH_NODE_COL, FINISH_NODE_ROW, START_NODE_COL, START_NODE_ROW, getInitialGrid, getNewGridWithWallToggled } from './gridUtils';
 
-const PathfindingVisualizer = () => {
+const RouteVisualizer = () => {
   const [grid, setGrid] = useState([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
+  const [run, setRun] = useState(false);
  const gridRef = useRef([]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const PathfindingVisualizer = () => {
   };
 
   const handleMouseEnter = (row, col) => {
-    if (!mouseIsPressed) return;
+    if (!mouseIsPressed || run) return;
     const newGrid = getNewGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
   };
@@ -47,9 +48,9 @@ const PathfindingVisualizer = () => {
 
   const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
     visitedNodesInOrder.forEach((node, i) => {
-
       setTimeout(() => {
         gridRef.current[node.row][node.col].classList.add('node-visited');
+        gridRef.current[node.row][node.col].innerHTML=node.distance;
       }, 10 * i);
     });
 
@@ -59,6 +60,7 @@ const PathfindingVisualizer = () => {
   };
 
   const visualizeDijkstra = () => {
+    setRun(!run);
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
@@ -67,12 +69,16 @@ const PathfindingVisualizer = () => {
   };
 
   const resetBoard = () => {
-    var mat=(gridRef.current);
+    setRun(!run);
+    const initialGrid = getInitialGrid();
+    setGrid(initialGrid);
+     var mat=(gridRef.current);
     let r = mat.length;
     let c = mat[0].length;
     for (let i = 0; i < r; i++)
       for (let j = 0; j < c; j++) {
         mat[i][j].classList = ['node'];
+        mat[i][j].innerHTML = '0';
         if (i === START_NODE_ROW && j === START_NODE_COL)
           mat[i][j].classList.add('node-start');
         if (i === FINISH_NODE_ROW && j === FINISH_NODE_COL)
@@ -83,12 +89,14 @@ const PathfindingVisualizer = () => {
 
   return (
     <>
-      <button onClick={() => visualizeDijkstra()}>
-        Visualize Dijkstra's Algorithm
-      </button>
-      <button onClick={resetBoard}>
-       Reset Board
-      </button>
+      {!run && (
+        <button onClick={visualizeDijkstra}>
+          Visualize Dijkstra's Algorithm
+        </button>
+      )}
+
+      {run && <button onClick={resetBoard}>Reset Board</button>}
+
       <div className="grid">
         {grid.map((row, rowIdx) => (
           <div key={rowIdx}>
@@ -117,4 +125,4 @@ const PathfindingVisualizer = () => {
   );
 };
 
-export default PathfindingVisualizer;
+export default RouteVisualizer;

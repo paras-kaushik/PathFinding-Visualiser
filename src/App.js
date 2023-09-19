@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import PathfindingVisualizer from './PathfindingVisualizer/PathfindingVisualizer';
+import RouteVisualizer from './RouteVisualizer/RouteVisualizer';
 
 function App() {
   return (
     <div className="App">
-      <PathfindingVisualizer/>
+      <RouteVisualizer />
     </div>
   );
 }

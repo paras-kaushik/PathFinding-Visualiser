@@ -3,6 +3,10 @@
   height: 25px;
   outline: 1px solid rgb(175, 216, 248);
   display: inline-block;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  color: #f9f4f4;
 }
 
 .node-finish {
@@ -19,7 +23,7 @@
   animation-timing-function: ease-out;
   animation-delay: 0;
   animation-direction: alternate;
-  animation-iteration-count: 1;
+  animation-iteration-count: 2;
   animation-fill-mode: forwards;
   animation-play-state: running;
 }
@@ -47,10 +51,12 @@
 }
 
 .node-wall {
-  background-color: rgb(12, 53, 71);
+  background-color: black;
+  color: black;
 }
 
 .node-shortest-path {
+  color: red;
   animation-name: shortestPath;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;

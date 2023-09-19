@@ -30,7 +30,9 @@ const Node = forwardRef(({
       onMouseUp={() => onMouseUp()}
       ref={ref}
       distance={distance}
-    ></div>
+    >
+      0
+    </div>
   );
 });
 
